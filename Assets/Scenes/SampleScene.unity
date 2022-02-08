@@ -152,8 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87894e7312ffbf4da1c18510ebfc7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateFromFile: 1
+  generateFromFile: 0
   filePath: ./Assets/Scripts/Project1_Data.txt
+  meanInterarrivalTime: 5
+  meanServiceTime: 3
+  standardDev: 1
 --- !u!4 &103891579
 Transform:
   m_ObjectHideFlags: 0
