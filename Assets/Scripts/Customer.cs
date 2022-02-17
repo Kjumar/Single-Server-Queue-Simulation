@@ -1,19 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Customer
+[DisallowMultipleComponent]
+public class Customer : MonoBehaviour
 {
-    public int id { get; private set; }
-    public float interarrivalTime { get; private set; }
-    public float serviceTime { get; private set; }
+    public int id;
+    public float interarrivalTime;
+    public float serviceTime;
 
-    public Customer(int id, float interarrivalTime, float serviceTime)
+    public void SetData(CustomerData data)
     {
-        this.id = id;
-        this.interarrivalTime = interarrivalTime;
-        this.serviceTime = serviceTime;
-
-        Debug.Log("Customer id: " + id + "\nInterarrival Time: " + interarrivalTime + " | Service Time: " + serviceTime);
+        id = data.id;
+        interarrivalTime = data.interarrivalTime;
+        serviceTime = data.serviceTime;
     }
 }
