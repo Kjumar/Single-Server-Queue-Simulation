@@ -10,9 +10,11 @@ public class CustomerFactory : MonoBehaviour
 
     [SerializeField] private UnityEvent<Customer> onArrival;
 
+    [Header("Debugging")]
+    [SerializeField] [Show] private CustomerData nextCustomer;
+    [SerializeField] [Show] private float timeLeftForArrival;
+
     private bool isRunning;
-    private CustomerData nextCustomer;
-    private float timeLeftForArrival;
 
     private void FixedUpdate()
     {

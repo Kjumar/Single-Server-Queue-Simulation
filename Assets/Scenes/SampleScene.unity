@@ -303,7 +303,6 @@ MonoBehaviour:
   meanInterarrivalTime: 3
   meanServiceTime: 5
   standardDev: 1
-  elapsedTime: 0
   onSimulationStart:
     m_PersistentCalls:
       m_Calls:
@@ -319,6 +318,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  elapsedTime: 0
+  nextCustomerIdx: -1
+  customers: []
 --- !u!4 &103891579
 Transform:
   m_ObjectHideFlags: 0
@@ -555,6 +557,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  nextCustomer:
+    id: 0
+    interarrivalTime: 0
+    serviceTime: 0
+  timeLeftForArrival: 0
 --- !u!4 &1146259832
 Transform:
   m_ObjectHideFlags: 0

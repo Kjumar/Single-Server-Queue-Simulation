@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ServiceManager : MonoBehaviour 
+public class ServiceManager : MonoBehaviour
 {
-    Customer currentCustomer;
-    float timeLeftForService = 0;
-
     [SerializeField] private UnityEvent<ServiceManager> onServiceFinished;
+
+    [Header("Debugging")]
+    [SerializeField] private Customer currentCustomer;
+    [SerializeField] [Show] private float timeLeftForService;
 
     private void FixedUpdate()
     {

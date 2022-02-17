@@ -23,14 +23,16 @@ public class GameController: MonoBehaviour
     [SerializeField] private float standardDev = 1;
 
     [Header("Simulation")]
-    [SerializeField] private float elapsedTime;
     [SerializeField] private UnityEvent onSimulationStart;
+
+    [Header("Debugging")]
+    [SerializeField] [Show] private float elapsedTime;
+    [SerializeField] [Show] private int nextCustomerIdx = -1;
+    [SerializeField] [Show] private List<CustomerData> customers = new List<CustomerData>();
 
     public bool IsRunning { get; private set; }
 
     private System.Random rand = new System.Random();
-    private List<CustomerData> customers = new List<CustomerData>();
-    private int nextCustomerIdx = -1;
 
     private void Start()
     {

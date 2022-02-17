@@ -1,0 +1,18 @@
+{
+    "name": "FancyInspector.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0297168265fe49d4fbd72bf0798fe687"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
