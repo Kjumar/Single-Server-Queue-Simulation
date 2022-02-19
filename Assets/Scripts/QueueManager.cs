@@ -8,7 +8,7 @@ public class QueueManager : MonoBehaviour
     [SerializeField] private UnityEvent<Customer> onCustomerAdded;
 
     [Header("Visualizer")]
-    [SerializeField] private Vector3 frontOfLine;
+    [SerializeField] private Transform frontOfLine;
     [SerializeField] private Vector3 interval;
 
     [Header("Debug UI")]
@@ -24,8 +24,8 @@ public class QueueManager : MonoBehaviour
 
     public void AddCustomer(Customer newCustomer)
     {
+        newCustomer.SetTargetPosition(frontOfLine.position + (interval * queue.Count));
         Enqueue(newCustomer);
-        newCustomer.SetTargetPosition(frontOfLine + (interval * (queue.Count - 1)));
 
         Debug.Log($"Customer ##{newCustomer.id} arrived at queue ({count})");
         if (eventLog) eventLog.Print($"Customer ##{newCustomer.id} arrived at queue ({count})");
@@ -52,7 +52,7 @@ public class QueueManager : MonoBehaviour
         Customer[] arr = queue.ToArray();
         for (int i = 0; i < arr.Length; i++)
         {
-            arr[i].SetTargetPosition(frontOfLine + (interval * i));
+            arr[i].SetTargetPosition(frontOfLine.position + (interval * i));
         }
     }
 
@@ -87,7 +87,8 @@ public class QueueManager : MonoBehaviour
         Customer customer = queue.Dequeue();
         count = queue.Count;
         firstInLine = queue.Count > 0 ? queue.Peek() : null;
-        if (uiFirstInLine && firstInLine) uiFirstInLine.text = firstInLine.id.ToString();
+        if (uiCustomersInQueue) uiCustomersInQueue.text = count.ToString();
+        if (uiFirstInLine) uiFirstInLine.text = (firstInLine?.id)?.ToString() ?? "-";
         return customer;
     }
 }

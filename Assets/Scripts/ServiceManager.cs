@@ -7,7 +7,8 @@ public class ServiceManager : MonoBehaviour
     [SerializeField] private UnityEvent<ServiceManager> onServiceFinished;
 
     [Header("Visualizer")]
-    [SerializeField] private Vector3 exitPosition;
+    [SerializeField] private Transform servicePosition;
+    [SerializeField] private Transform exitPosition;
 
     [Header("Debug UI")]
     [SerializeField] private Text uiCurrentCustomer;
@@ -24,12 +25,12 @@ public class ServiceManager : MonoBehaviour
 
         timeLeftForService -= Time.fixedDeltaTime;
 
-        if (uiServiceTime) uiServiceTime.text = string.Format("{0:0.00}", timeLeftForService);
-
         if (timeLeftForService <= 0)
         {
             FinishServe();
         }
+
+        if (uiServiceTime) uiServiceTime.text = string.Format("{0:0.00}", timeLeftForService);
     }
 
     public void ReceiveCustomer(Customer customer)
@@ -38,7 +39,7 @@ public class ServiceManager : MonoBehaviour
         timeLeftForService = customer.serviceTime;
 
         currentCustomer.SnapToTarget();
-        currentCustomer.SetTargetPosition(transform.position);
+        currentCustomer.SetTargetPosition(servicePosition.position);
         currentCustomer.BeginService();
 
         if (uiCurrentCustomer) uiCurrentCustomer.text = currentCustomer.id.ToString();
@@ -55,10 +56,13 @@ public class ServiceManager : MonoBehaviour
     public void FinishServe()
     {
         string serviceTime = currentCustomer.serviceTime.ToString();
-        currentCustomer.SetTargetPosition(exitPosition);
+        currentCustomer.SnapToTarget();
+        currentCustomer.SetTargetPosition(exitPosition.position);
         currentCustomer.EndService();
         Destroy(currentCustomer.gameObject, 2);
         currentCustomer = null;
+        timeLeftForService = 0.0f;
+        if (uiCurrentCustomer) uiCurrentCustomer.text = "-";
 
         Debug.Log($"Finished Serving Customer in {serviceTime}s");
         if (eventLog) eventLog.Print($"Finished Serving Customer in {serviceTime}s");

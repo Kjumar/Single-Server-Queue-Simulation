@@ -45,4 +45,10 @@ public class Customer : MonoBehaviour
     {
         meshRenderer.material = defaultMat;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = meshRenderer.material.color;
+        Gizmos.DrawLine(transform.position, targetPosition);
+    }
 }

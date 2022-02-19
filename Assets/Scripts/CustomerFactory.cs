@@ -12,7 +12,7 @@ public class CustomerFactory : MonoBehaviour
     [SerializeField] private UnityEvent<Customer> onArrival;
 
     [Header("Visualizer")]
-    [SerializeField] private Vector3 spawnPoint;
+    [SerializeField] private Transform spawnPoint;
 
     [Header("Debug UI")]
     [SerializeField] private Text uiTimeToArrival;
@@ -48,7 +48,7 @@ public class CustomerFactory : MonoBehaviour
     private void EnqueueCustomer()
     {
         GameObject go = Instantiate(customerPrefab);
-        go.transform.position = spawnPoint;
+        go.transform.position = spawnPoint.position;
         Customer customer = go.GetComponent<Customer>();
 
         customer.SetData(nextCustomer);
