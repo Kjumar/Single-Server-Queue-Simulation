@@ -19,8 +19,8 @@ public class GameController: MonoBehaviour
 
     [Header("Data From Code")]
     [SerializeField] [Range(1, 1000)] private int numberOfCustomers = 500;
-    [SerializeField] private float meanInterarrivalTime = 5;
-    [SerializeField] private float meanServiceTime = 3;
+    [SerializeField] private TimeRate interArrivalRate;
+    [SerializeField] private TimeRate serviceRate;
     [SerializeField] private float standardDev = 1;
 
     [Header("Simulation")]
@@ -118,8 +118,8 @@ public class GameController: MonoBehaviour
         {
             CustomerData data = new CustomerData(
                 i + 1,
-                RandomUniform(meanInterarrivalTime, standardDev),
-                RandomUniform(meanServiceTime, standardDev));
+                RandomUniform(interArrivalRate.MeanTimeMinute, standardDev),
+                RandomUniform(serviceRate.MeanTimeMinute, standardDev));
             customers.Add(data);
         }
 

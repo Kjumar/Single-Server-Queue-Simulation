@@ -22,25 +22,16 @@ namespace Editor
                     return;
                 }
 
-                Rect line1 = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-                Rect line2 = new Rect(
-                    position.x,
-                    line1.yMax + EditorGUIUtility.standardVerticalSpacing,
-                    position.width,
-                    EditorGUIUtility.singleLineHeight);
-                Rect line3 = new Rect(
-                    position.x,
-                    line2.yMax + EditorGUIUtility.standardVerticalSpacing,
-                    position.width,
-                    EditorGUIUtility.singleLineHeight);
-
+                position.height = EditorGUIUtility.singleLineHeight;
                 label.text += $" #{value.id}";
-                EditorGUI.LabelField(line1, label);
+                EditorGUI.LabelField(position, label);
 
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    EditorGUI.FloatField(line2, "interarrival", value.interarrivalTime);
-                    EditorGUI.FloatField(line3, "service", value.serviceTime);
+                    position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.FloatField(position, "interarrival", value.interarrivalTime);
+                    position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                    EditorGUI.FloatField(position, "service", value.serviceTime);
                 }
             }
         }

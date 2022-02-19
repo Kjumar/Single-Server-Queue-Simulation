@@ -618,8 +618,10 @@ MonoBehaviour:
   generateFromFile: 0
   filePath: ./Assets/Scripts/Project1_Data.txt
   numberOfCustomers: 500
-  meanInterarrivalTime: 3
-  meanServiceTime: 5
+  interArrivalRate:
+    ratePerHour: 15
+  serviceRate:
+    ratePerHour: 20
   standardDev: 1
   onSimulationStart:
     m_PersistentCalls:
@@ -1837,7 +1839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 103891578}
-  customerPrefab: {fileID: 3256159371656447237, guid: 7d0e01029aea1034ebac4dbf459b5ea2, type: 3}
+  customerPrefab: {fileID: 3256159371656447237, guid: 7d0e01029aea1034ebac4dbf459b5ea2,
+    type: 3}
   onArrival:
     m_PersistentCalls:
       m_Calls:
@@ -2668,8 +2671,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 411563747}
+  m_Children: [{fileID: 411563747}]
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
