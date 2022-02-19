@@ -21,7 +21,7 @@ public class GameController: MonoBehaviour
     [SerializeField] [Range(1, 1000)] private int numberOfCustomers = 500;
     [SerializeField] private TimeRate interArrivalRate;
     [SerializeField] private TimeRate serviceRate;
-    [SerializeField] private float standardDev = 1;
+    [SerializeField] private GenerationOption generationOption;
 
     [Header("Simulation")]
     [SerializeField] private UnityEvent onSimulationStart;
@@ -118,32 +118,12 @@ public class GameController: MonoBehaviour
         {
             CustomerData data = new CustomerData(
                 i + 1,
-                RandomUniform(interArrivalRate.MeanTimeMinute, standardDev),
-                RandomUniform(serviceRate.MeanTimeMinute, standardDev));
+                generationOption.Generate(rand, interArrivalRate.MeanTimeMinute),
+                generationOption.Generate(rand, serviceRate.MeanTimeMinute));
             customers.Add(data);
         }
 
         Debug.Log($"Successfully generated data for {numberOfCustomers} customers");
         if (eventLog) eventLog.Print($"Successfully generated data for {numberOfCustomers} customers");
-    }
-
-    private float RandomUniform(float mean, float standardDev)
-    {
-        // using count = 12 specifically eliminates the square root from the formula and simplifies it
-        // sqrt(12/n) * (fx(x:n) - n/2), n-> infinity
-        // => 1 * (fx(12:n) - 6)
-        int count = 12;
-
-        double r = 0;
-        for (int i = 0; i < count; i++)
-        {
-            r += rand.NextDouble();
-        }
-        double magnitude = count / 2;
-        r = (r - magnitude);
-
-        float randNormal = (float)(mean + standardDev * r);
-
-        return randNormal;
     }
 }

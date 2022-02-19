@@ -13,7 +13,6 @@ namespace Editor
         {
             Customer value = property.objectReferenceValue as Customer;
 
-            using (new EditorGUI.PropertyScope(position, label, property))
             using (new EditorGUI.DisabledScope(true))
             {
                 if (!value)
