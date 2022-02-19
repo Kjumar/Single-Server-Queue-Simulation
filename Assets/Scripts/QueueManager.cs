@@ -7,9 +7,10 @@ public class QueueManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent<Customer> onCustomerAdded;
 
-    [Header("DebugUI")]
+    [Header("Debug UI")]
     [SerializeField] private Text uiCustomersInQueue;
     [SerializeField] private Text uiFirstInLine;
+    [SerializeField] private EventLog eventLog;
 
     [Header("Debugging")]
     [SerializeField] [Show] [Rename("# of Customers in Queue")] private int count;
@@ -21,6 +22,7 @@ public class QueueManager : MonoBehaviour
     {
         Enqueue(newCustomer);
         Debug.Log($"Customer ##{newCustomer.id} arrived at queue ({count})");
+        if (eventLog) eventLog.Print($"Customer ##{newCustomer.id} arrived at queue ({count})");
         onCustomerAdded.Invoke(newCustomer);
     }
 
@@ -31,6 +33,7 @@ public class QueueManager : MonoBehaviour
 
         Customer customer = Dequeue();
         Debug.Log($"Customer ##{customer.id} leaving queue ({count})");
+        if (eventLog) eventLog.Print($"Customer ##{customer.id} leaving queue ({count})");
         return customer;
     }
 

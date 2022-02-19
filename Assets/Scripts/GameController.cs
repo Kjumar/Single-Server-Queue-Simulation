@@ -29,6 +29,7 @@ public class GameController: MonoBehaviour
     [Header("Debug UI")]
     [SerializeField] private Text uiElapsedTime;
     [SerializeField] private Text uiNextCustomerID;
+    [SerializeField] private EventLog eventLog;
 
     [Header("Debugging")]
     [SerializeField] [Show] private float elapsedTime;
@@ -103,6 +104,7 @@ public class GameController: MonoBehaviour
             }
 
             Debug.Log($"Successfully loaded data from file {filePath}");
+            if (eventLog) eventLog.Print($"Successfully loaded data from file {filePath}");
         }
         catch (Exception e)
         {
@@ -122,6 +124,7 @@ public class GameController: MonoBehaviour
         }
 
         Debug.Log($"Successfully generated data for {numberOfCustomers}");
+        if (eventLog) eventLog.Print($"Successfully generated data for {numberOfCustomers}");
     }
 
     private float RandomUniform(float mean, float standardDev)

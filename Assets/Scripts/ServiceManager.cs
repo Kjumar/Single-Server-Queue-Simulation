@@ -9,6 +9,7 @@ public class ServiceManager : MonoBehaviour
     [Header("Debug UI")]
     [SerializeField] private Text uiCurrentCustomer;
     [SerializeField] private Text uiServiceTime;
+    [SerializeField] private EventLog eventLog;
 
     [Header("Debugging")]
     [SerializeField] private Customer currentCustomer;
@@ -46,10 +47,12 @@ public class ServiceManager : MonoBehaviour
 
     public void FinishServe()
     {
+        string serviceTime = currentCustomer.serviceTime.ToString();
         Destroy(currentCustomer.gameObject);
         currentCustomer = null;
 
-        Debug.Log("Finished Serving Customer in " + timeLeftForService + "s");
+        Debug.Log($"Finished Serving Customer in {serviceTime}s");
+        if (eventLog) eventLog.Print($"Finished Serving Customer in {serviceTime}s");
 
         onServiceFinished.Invoke(this);
     }
