@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class CustomerFactory : MonoBehaviour
@@ -9,6 +10,9 @@ public class CustomerFactory : MonoBehaviour
     [SerializeField] private GameObject customerPrefab;
 
     [SerializeField] private UnityEvent<Customer> onArrival;
+
+    [Header("Debug UI")]
+    [SerializeField] private Text uiTimeToArrival;
 
     [Header("Debugging")]
     [SerializeField] [Show] private CustomerData nextCustomer;
@@ -23,6 +27,8 @@ public class CustomerFactory : MonoBehaviour
         if (!nextCustomer.IsValid) return;
 
         timeLeftForArrival -= Time.fixedDeltaTime;
+
+        if (uiTimeToArrival) uiTimeToArrival.text = string.Format("{0:0.00}", timeLeftForArrival);
 
         if (timeLeftForArrival <= 0)
         {

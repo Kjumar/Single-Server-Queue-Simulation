@@ -1,9 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class ServiceManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent<ServiceManager> onServiceFinished;
+
+    [Header("Debug UI")]
+    [SerializeField] private Text uiCurrentCustomer;
+    [SerializeField] private Text uiServiceTime;
 
     [Header("Debugging")]
     [SerializeField] private Customer currentCustomer;
@@ -13,9 +18,11 @@ public class ServiceManager : MonoBehaviour
     {
         if (currentCustomer == null) return;
 
-        timeLeftForService += Time.fixedDeltaTime;
+        timeLeftForService -= Time.fixedDeltaTime;
 
-        if (timeLeftForService >= currentCustomer.serviceTime)
+        if (uiServiceTime) uiServiceTime.text = string.Format("{0:0.00}", timeLeftForService);
+
+        if (timeLeftForService <= 0)
         {
             FinishServe();
         }
@@ -24,7 +31,9 @@ public class ServiceManager : MonoBehaviour
     public void ReceiveCustomer(Customer customer)
     {
         currentCustomer = customer;
-        timeLeftForService = 0;
+        timeLeftForService = customer.serviceTime;
+
+        if (uiCurrentCustomer) uiCurrentCustomer.text = currentCustomer.id.ToString();
     }
 
     public void OnCustomerEnqueue(Customer customer)

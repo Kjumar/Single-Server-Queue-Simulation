@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using System;
 using System.IO;
 
@@ -25,6 +26,10 @@ public class GameController: MonoBehaviour
     [Header("Simulation")]
     [SerializeField] private UnityEvent onSimulationStart;
 
+    [Header("Debug UI")]
+    [SerializeField] private Text uiElapsedTime;
+    [SerializeField] private Text uiNextCustomerID;
+
     [Header("Debugging")]
     [SerializeField] [Show] private float elapsedTime;
     [SerializeField] [Show] private int nextCustomerIdx = -1;
@@ -43,6 +48,8 @@ public class GameController: MonoBehaviour
     {
         if (!IsRunning) return;
         elapsedTime += Time.fixedDeltaTime;
+
+        if (uiElapsedTime) uiElapsedTime.text = String.Format("{0:0.00}", elapsedTime);
     }
 
     public void GetData()
@@ -57,6 +64,8 @@ public class GameController: MonoBehaviour
         {
             GetDataProgramatically();
         }
+
+        if (uiNextCustomerID) uiNextCustomerID.text = customers[0].id.ToString();
     }
 
     public void StartSimulation()
@@ -68,6 +77,8 @@ public class GameController: MonoBehaviour
     public CustomerData GetNextCustomer()
     {
         nextCustomerIdx = (nextCustomerIdx + 1) % customers.Count;
+
+        if (uiNextCustomerID) uiNextCustomerID.text = customers[nextCustomerIdx].id.ToString();
 
         return customers[nextCustomerIdx];
     }

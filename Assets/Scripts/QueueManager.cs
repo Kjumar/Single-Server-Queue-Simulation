@@ -1,10 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class QueueManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent<Customer> onCustomerAdded;
+
+    [Header("DebugUI")]
+    [SerializeField] private Text uiCustomersInQueue;
+    [SerializeField] private Text uiFirstInLine;
 
     [Header("Debugging")]
     [SerializeField] [Show] [Rename("# of Customers in Queue")] private int count;
@@ -41,9 +46,15 @@ public class QueueManager : MonoBehaviour
 
     private void Enqueue(Customer customer)
     {
-        if (queue.Count <= 0) firstInLine = customer;
+        if (queue.Count <= 0)
+        {
+            firstInLine = customer;
+            if (uiFirstInLine) uiFirstInLine.text = firstInLine.id.ToString();
+        }
         queue.Enqueue(customer);
         count = queue.Count;
+
+        if (uiCustomersInQueue) uiCustomersInQueue.text = count.ToString();
     }
 
     private Customer Dequeue()
@@ -54,6 +65,7 @@ public class QueueManager : MonoBehaviour
         Customer customer = queue.Dequeue();
         count = queue.Count;
         firstInLine = queue.Count > 0 ? queue.Peek() : null;
+        if (uiFirstInLine && firstInLine) uiFirstInLine.text = firstInLine.id.ToString();
         return customer;
     }
 }
