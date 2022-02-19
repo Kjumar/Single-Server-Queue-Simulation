@@ -123,8 +123,8 @@ public class GameController: MonoBehaviour
             customers.Add(data);
         }
 
-        Debug.Log($"Successfully generated data for {numberOfCustomers}");
-        if (eventLog) eventLog.Print($"Successfully generated data for {numberOfCustomers}");
+        Debug.Log($"Successfully generated data for {numberOfCustomers} customers");
+        if (eventLog) eventLog.Print($"Successfully generated data for {numberOfCustomers} customers");
     }
 
     private float RandomUniform(float mean, float standardDev)

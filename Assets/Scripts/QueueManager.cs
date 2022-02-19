@@ -7,6 +7,10 @@ public class QueueManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent<Customer> onCustomerAdded;
 
+    [Header("Visualizer")]
+    [SerializeField] private Vector3 frontOfLine;
+    [SerializeField] private Vector3 interval;
+
     [Header("Debug UI")]
     [SerializeField] private Text uiCustomersInQueue;
     [SerializeField] private Text uiFirstInLine;
@@ -21,8 +25,11 @@ public class QueueManager : MonoBehaviour
     public void AddCustomer(Customer newCustomer)
     {
         Enqueue(newCustomer);
+        newCustomer.SetTargetPosition(frontOfLine + (interval * (queue.Count - 1)));
+
         Debug.Log($"Customer ##{newCustomer.id} arrived at queue ({count})");
         if (eventLog) eventLog.Print($"Customer ##{newCustomer.id} arrived at queue ({count})");
+
         onCustomerAdded.Invoke(newCustomer);
     }
 
@@ -34,7 +41,19 @@ public class QueueManager : MonoBehaviour
         Customer customer = Dequeue();
         Debug.Log($"Customer ##{customer.id} leaving queue ({count})");
         if (eventLog) eventLog.Print($"Customer ##{customer.id} leaving queue ({count})");
+
+        UpdateCustomerPositions();
+
         return customer;
+    }
+
+    private void UpdateCustomerPositions()
+    {
+        Customer[] arr = queue.ToArray();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            arr[i].SetTargetPosition(frontOfLine + (interval * i));
+        }
     }
 
     public void OnGetNextCustomer(ServiceManager service)
