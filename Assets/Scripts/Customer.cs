@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class Customer : MonoBehaviour
@@ -10,6 +11,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private float speed = 10;
     private Vector3 targetPosition;
 
+    [SerializeField] private Text idText;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private Material defaultMat;
     [SerializeField] private Material serviceMat;
@@ -17,6 +19,7 @@ public class Customer : MonoBehaviour
     public void SetData(CustomerData data)
     {
         id = data.id;
+        idText.text = id.ToString();
         interarrivalTime = data.interarrivalTime;
         serviceTime = data.serviceTime;
     }
@@ -48,7 +51,7 @@ public class Customer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = meshRenderer.material.color;
+        Gizmos.color = meshRenderer.sharedMaterial.color;
         Gizmos.DrawLine(transform.position, targetPosition);
     }
 }
