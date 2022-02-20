@@ -13,6 +13,8 @@ using System.IO;
 public class GameController: MonoBehaviour
 {
     [SerializeField] private bool generateFromFile = true;
+    // this bool will help us know if the gen option was switched during simulation
+    private bool prevGenStatus = true;
 
     [Header("Data From File")]
     [SerializeField] private string filePath = "./Assets/Scripts/Project1_Data.txt";
@@ -43,6 +45,8 @@ public class GameController: MonoBehaviour
     private void Start()
     {
         GetData();
+
+        prevGenStatus = generateFromFile;
     }
 
     private void FixedUpdate()
@@ -51,20 +55,21 @@ public class GameController: MonoBehaviour
         elapsedTime += Time.fixedDeltaTime;
 
         if (uiElapsedTime) uiElapsedTime.text = String.Format("{0:0.00}", elapsedTime);
+
+        if (eventLog && prevGenStatus != generateFromFile)
+        {
+            if (generateFromFile) eventLog.Print("Switched to pregenerated data");
+            else eventLog.Print("Switched to live data generation");
+        }
+
+        prevGenStatus = generateFromFile;
     }
 
     public void GetData()
     {
         customers.Clear();
 
-        if (generateFromFile)
-        {
-            GetDataFromFile();
-        }
-        else
-        {
-            GetDataProgramatically();
-        }
+        GetDataFromFile();
 
         if (uiNextCustomerID) uiNextCustomerID.text = customers[0].id.ToString();
     }
@@ -81,7 +86,9 @@ public class GameController: MonoBehaviour
 
         if (uiNextCustomerID) uiNextCustomerID.text = customers[nextCustomerIdx].id.ToString();
 
-        return customers[nextCustomerIdx];
+        if (generateFromFile) return customers[nextCustomerIdx];
+
+        return GenerateNextCustomer();
     }
 
     private void GetDataFromFile()
@@ -109,6 +116,9 @@ public class GameController: MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
+            if (eventLog) eventLog.Print("Could not open pregenerated data file. Switching to programatically generated data");
+
+            GetDataProgramatically();
         }
     }
 
@@ -125,5 +135,15 @@ public class GameController: MonoBehaviour
 
         Debug.Log($"Successfully generated data for {numberOfCustomers} customers");
         if (eventLog) eventLog.Print($"Successfully generated data for {numberOfCustomers} customers");
+    }
+
+    private CustomerData GenerateNextCustomer()
+    {
+        CustomerData data = new CustomerData(
+            nextCustomerIdx + 1,
+            generationOption.Generate(rand, interArrivalRate.MeanTimeMinute),
+            generationOption.Generate(rand, serviceRate.MeanTimeMinute));
+
+        return data;
     }
 }
