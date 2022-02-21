@@ -38,6 +38,8 @@ public class GameController: MonoBehaviour
     [SerializeField] [Show] private int nextCustomerIdx = -1;
     [SerializeField] [Show] private List<CustomerData> customers = new List<CustomerData>();
 
+    public int speed = 1;
+
     public bool IsRunning { get; private set; }
 
     private System.Random rand = new System.Random();
@@ -52,7 +54,7 @@ public class GameController: MonoBehaviour
     private void FixedUpdate()
     {
         if (!IsRunning) return;
-        elapsedTime += Time.fixedDeltaTime;
+        elapsedTime += Time.fixedDeltaTime*speed;
 
         if (uiElapsedTime) uiElapsedTime.text = String.Format("{0:0.00}", elapsedTime);
 
@@ -78,6 +80,31 @@ public class GameController: MonoBehaviour
     {
         IsRunning = true;
         onSimulationStart.Invoke();
+    }
+
+    public void speedOne()
+    {
+        speed = 1;
+        speed = speed/2;
+        
+    }
+    public void speedTwo()
+    {
+        speed = 1;
+        speed = (speed / 2 ) + 1;
+
+    }
+    public void speedThree()
+    {
+        speed = 2;
+       ;
+
+    }
+    public void speedFour()
+    {
+        speed = 5;
+        ;
+
     }
 
     public CustomerData GetNextCustomer()
