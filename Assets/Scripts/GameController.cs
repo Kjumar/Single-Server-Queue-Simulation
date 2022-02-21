@@ -26,19 +26,19 @@ public class GameController: MonoBehaviour
     [SerializeField] private GenerationOption generationOption;
 
     [Header("Simulation")]
+    [SerializeField] [Min(0.0f)] public float speed = 1.0f;
     [SerializeField] private UnityEvent onSimulationStart;
 
     [Header("Debug UI")]
     [SerializeField] private Text uiElapsedTime;
     [SerializeField] private Text uiNextCustomerID;
     [SerializeField] private EventLog eventLog;
+    [SerializeField] private Text uiSpeed;
 
     [Header("Debugging")]
     [SerializeField] [Show] private float elapsedTime;
     [SerializeField] [Show] private int nextCustomerIdx = -1;
     [SerializeField] [Show] private List<CustomerData> customers = new List<CustomerData>();
-
-    public int speed = 1;
 
     public bool IsRunning { get; private set; }
 
@@ -54,7 +54,11 @@ public class GameController: MonoBehaviour
     private void FixedUpdate()
     {
         if (!IsRunning) return;
-        elapsedTime += Time.fixedDeltaTime*speed;
+
+        Time.timeScale = speed;
+        if (uiSpeed) uiSpeed.text = $"{speed:F2}";
+
+        elapsedTime += Time.fixedDeltaTime;
 
         if (uiElapsedTime) uiElapsedTime.text = String.Format("{0:0.00}", elapsedTime);
 
@@ -84,27 +88,21 @@ public class GameController: MonoBehaviour
 
     public void speedOne()
     {
-        speed = 1;
-        speed = speed/2;
-        
+        speed = 0.5f;
     }
+
     public void speedTwo()
     {
-        speed = 1;
-        speed = (speed / 2 ) + 1;
-
+        speed = 1.0f;
     }
     public void speedThree()
     {
-        speed = 2;
-       ;
-
+        speed = 2.0f;
     }
+
     public void speedFour()
     {
-        speed = 5;
-        ;
-
+        speed = 5.0f;
     }
 
     public CustomerData GetNextCustomer()
