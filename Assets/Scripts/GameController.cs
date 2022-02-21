@@ -42,6 +42,12 @@ public class GameController: MonoBehaviour
 
     public bool IsRunning { get; private set; }
 
+    public GenerationOption GenerationOption
+    {
+        get => generationOption;
+        set => generationOption = value;
+    }
+
     private System.Random rand = new System.Random();
 
     private void Start()
